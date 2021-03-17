@@ -1,21 +1,101 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" class="h-100">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    
 
     <title>Tesseract | Marcielli</title>
   </head>
-  <body>
-    <h1>Hello, world!</h1>
+  <body class="d-flex h-100">
 
- 
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <div class="container d-flex align-items-center justify-content-center" > 
+  
+     <table class="table table-striped" >
+      <thead>
+        <tr>
+          <th scope="col">Login</th>
+          <th scope="col">Foto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="pessoa">
+        </tr>
+       <!--  <tr>
+          <th scope="row" id="login"></th>
+          <td><img src="#" id="imagem"></td>
+        </tr> -->
+      </tbody>
+    </table>
 
+    <script type="text/javascript">
+
+    const urlToFetch = 'https://api.github.com/orgs/grupotesseract/public_members';
+    
+    fetch(urlToFetch, {
+      method: 'get'
+    })
+    .then(function(response) {      
+      response.json()
+      .then(function(result) {
+        console.log(result);
+       for (var i = 0; i < result.length; i++) {
+         //console.log(result[i].login);
+         //document.getElementById('pessoa').innerHTML = '<tr><th scope="row">'+ result[i].login +'</th></tr>';
+        
+        var nodeTh = document.createElement("th");
+        var nodeTd = document.crateElement("td");
+        var br = document.createElement("br");
+
+        var textLogin = document.createTextNode(result[i].login);
+        var textImagem = document.createTextNode(result[i].avatar_url);
+
+        nodeTh.appendChild(textLogin);
+        nodeImagem.appendChild(textImagem);
+
+        document.getElementById("pessoa").appendChild(nodeTh);
+
+
+       
+        
+
+
+       }
+
+
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+    })
+
+
+
+
+
+
+
+
+      // const login = document.getElementById('login').innerHTML
+      // getText('https://api.github.com/orgs/grupotesseract/public_members');
+
+      // async function getText(file) {
+      //   let arquivo = await fetch(file);
+      //   let arquivoTexto = await arquivo.text();
+      //   document.getElementById('login').innerHTML = arquivoTexto;
+      // }
+      
+
+      
+    </script>
+
+    </div>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="./js/index.js"></script>
    
   </body>
 </html>
