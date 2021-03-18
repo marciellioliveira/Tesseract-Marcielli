@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br" class="h-100">
+<html lang="pt-br">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,7 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" type="text/css" href="./css/estilo.css">
+  <!--   <script src="./js/app.js"></script> -->
 
     <title>Tesseract | Marcielli</title>
   </head>
@@ -22,80 +23,65 @@
           <th scope="col">Foto</th>
         </tr>
       </thead>
-      <tbody>
-        <tr id="pessoa">
-        </tr>
-       <!--  <tr>
-          <th scope="row" id="login"></th>
-          <td><img src="#" id="imagem"></td>
-        </tr> -->
+      <tbody id="data">      
+       
       </tbody>
     </table>
 
     <script type="text/javascript">
+      fetch("https://api.github.com/orgs/grupotesseract/public_members").then(
+        res=>{
+          res.json().then(
+            data=> {
+              console.log(data);
+              if(data.length > 0) {
+                var temp = "";
 
-    const urlToFetch = 'https://api.github.com/orgs/grupotesseract/public_members';
-    
-    fetch(urlToFetch, {
-      method: 'get'
-    })
-    .then(function(response) {      
-      response.json()
-      .then(function(result) {
-        console.log(result);
-       for (var i = 0; i < result.length; i++) {
-         //console.log(result[i].login);
-         //document.getElementById('pessoa').innerHTML = '<tr><th scope="row">'+ result[i].login +'</th></tr>';
-        
-        var nodeTh = document.createElement("th");
-        var nodeTd = document.crateElement("td");
-        var br = document.createElement("br");
+                //Inicio do loop
+                data.forEach((u) => {
+                  temp += "<tr>";
+                  temp += `<td><button type="button" class="btn btn-transparent" data-toggle="modal" data-target="modalInformacao" > ${u.login}</button></td>`;
+                  temp += `<td><button type="button" class="btn btn-transparent" data-toggle="modal" data-target="modalInformacao" ><img src='${u.avatar_url}' class='img-fluid'  height="75" data-toggle="tooltip" data-placement="top" title="${u.login}" width="75"></button></td></tr>`;
+                 
+                })
+                //Fecha loop
 
-        var textLogin = document.createTextNode(result[i].login);
-        var textImagem = document.createTextNode(result[i].avatar_url);
+                document.getElementById("data").innerHTML = temp;
 
-        nodeTh.appendChild(textLogin);
-        nodeImagem.appendChild(textImagem);
-
-        document.getElementById("pessoa").appendChild(nodeTh);
-
-
-       
-        
-
-
-       }
-
-
-      })
-    })
-    .catch(function(error) {
-      console.log(error);
-    })
-
-
-
-
-
-
-
-
-      // const login = document.getElementById('login').innerHTML
-      // getText('https://api.github.com/orgs/grupotesseract/public_members');
-
-      // async function getText(file) {
-      //   let arquivo = await fetch(file);
-      //   let arquivoTexto = await arquivo.text();
-      //   document.getElementById('login').innerHTML = arquivoTexto;
-      // }
-      
-
-      
+              }
+            })
+        })
     </script>
 
     </div>
-    <script src="./js/bootstrap.bundle.min.js"></script>
-    <script src="./js/index.js"></script>
+
+    <!-- Botão para acionar modal -->
+  <!--   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInformacao">
+      Abrir modal de demonstração
+    </button> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalInformacao" tabindex="-1" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="TituloModalCentralizado">Título do modal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-primary">Salvar mudanças</button>
+          </div>
+        </div>
+      </div>
+    </div>
    
   </body>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    
 </html>
